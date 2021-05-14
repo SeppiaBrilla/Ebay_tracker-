@@ -1,0 +1,16 @@
+{
+  "name": "ebay-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SeppiaBrilla",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^9.0.2",
+    "ebay-node-api": "^2.8.11",
+    "node-telegram-bot-api": "^0.53.0"
+  }
+}

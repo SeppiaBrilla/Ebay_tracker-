@@ -1,5 +1,4 @@
 .launch
-ebay-config.json
 .env
-__pycache__
 saved_researches
+node_modules
