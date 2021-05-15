@@ -232,8 +232,10 @@ function search(name, id){
                 if(respi != null && respi < maxprice && respi > minprice)
                     res.push(response[i])
             }
-            if(res.length < 1)
+            if(res.length < 1){
+                bot.sendMessage(id,"nessun prodotto relativo alla ricerca " + nome + " trovato!")
                 return;
+            }
             let keys = Object.keys(res);
             let min = minMax(res,'min')
             let max = minMax(res,'max')
