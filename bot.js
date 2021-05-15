@@ -39,6 +39,7 @@ bot.onText(/\/nuovo/, (msg, match) => {
     bot.sendMessage(chatID, "se invece vuoi cancellare l'operazione usa /cancella");
     new_observers[chatID] = {};
     new_observers[chatID]['id'] = chatID; 
+    new_observers[chatID]['file'] = true;
 });
 
 
@@ -72,6 +73,7 @@ bot.onText(/\/prezzo (.+)/, (msg, match) => {
         bot.sendMessage(chatID, "errore nella lettura del messaggio, prova ad usare /help per avere istruzioni su come usarmi");
     }
 });
+
 bot.onText(/\/tolleranza (.+)/, (msg, match) => {
     let chatID = msg.chat.id;
     try{
@@ -86,6 +88,7 @@ bot.onText(/\/tolleranza (.+)/, (msg, match) => {
         bot.sendMessage(chatID, "errore nella lettura del messaggio, prova ad usare /help per avere istruzioni su come usarmi");
     }
 });
+
 bot.onText(/\/tempo (.+)/, (msg, match) => {
     let chatID = msg.chat.id;
     try{
@@ -100,6 +103,31 @@ bot.onText(/\/tempo (.+)/, (msg, match) => {
         bot.sendMessage(chatID, "errore nella lettura del messaggio, prova ad usare /help per avere istruzioni su come usarmi");
     }
 });
+
+bot.onText(/\/file (.+)/, (msg, match) => {
+    let chatID = msg.chat.id;
+    try{
+        time = match[1];
+        if(! chatID in new_observers){
+            bot.sendMessage(chatID, "prima di poter impostare un tempo di un observer devi crearlo, usa /nuovo per poterlo fare")
+            return
+        }
+        if(match[1] == 'si'){
+            new_observers[chatID]['file'] = true;
+            bot.sendMessage(chatID, "perfetto, riceverai il file json con tutti i risultati trovati, usa '/file no' per cambiare questa impostazione");
+        }
+        else if(matc[1] == 'no'){
+            new_observers[chatID]['file'] = false;
+            bot.sendMessage(chatID, "perfetto, non riceverai il file json con tutti i risultati trovati, usa '/file si' per cambiare questa impostazione");
+        }
+        else{
+            bot.sendMessage(chatID,'non hai scelto nè si nè no, per favore usa il comando correttamente');
+        }
+    }catch{
+        bot.sendMessage(chatID, "errore nella lettura del messaggio, prova ad usare /help per avere istruzioni su come usarmi");
+    }
+});
+
 bot.onText(/\/fatto/, (msg, match) => {
     let chatID = msg.chat.id;
     if (!fs.existsSync("saved_researches")){
@@ -115,6 +143,7 @@ bot.onText(/\/fatto/, (msg, match) => {
         bot.sendMessage(chatID, "errore nella lettura del messaggio, prova ad usare /help per avere istruzioni su come usarmi");
     }
 });
+
 bot.onText(/\/elimina (.+)/, (msg, match) => {
     let chatID = msg.chat.id;
     try{
@@ -127,6 +156,7 @@ bot.onText(/\/elimina (.+)/, (msg, match) => {
         bot.sendMessage(chatID, "errore nella lettura del messaggio, prova ad usare /help per avere istruzioni su come usarmi");
     }
 });
+
 bot.onText(/\/cancella/, (msg, match) => {
     let chatID = msg.chat.id;
     try{
@@ -160,27 +190,29 @@ bot.onText(/\/esegui (.+)/, (msg, match) => {
 bot.onText(/\/help/, (msg, match) => {
     let chatID = msg.chat.id;
     bot.sendMessage(chatID, `per creare un nuovo obserever usa /new e segui le istruzioni,
-                             per eliminare un observer usa /elimina seguito dal nome dell'observer,
-                             per vedere tutti i tuoi observer attivi usa /lista,
-                             per eseguire immediatamente un observer usa /esegui seguito dal nome dell'observer
-                             attenzione: 
-                                         -tutti i comandi per impostare un nuovo observer (a parte /fatto) hanno bisogno di un argomento successivo
-                                         -la tolleranza è il discostamento dal prezzo impostato (in %)
-                                         -il tempo è ogni quanto eseguire e notificare la ricerca (in minuti)
-                                         -questo bot è stato fatto senza dare troppo peso a possibili errori dell'utente quindi si rompe facile, non sfidarlo`)
+per eliminare un observer usa /elimina seguito dal nome dell'observer,
+per vedere tutti i tuoi observer attivi usa /lista,
+per eseguire immediatamente un observer usa /esegui seguito dal nome dell'observer
+attenzione: 
+    -tutti i comandi per impostare un nuovo observer (a parte /fatto) hanno bisogno di un argomento successivo
+    -la tolleranza è il discostamento dal prezzo impostato (in %)
+    -il tempo è ogni quanto eseguire e notificare la ricerca (in minuti)
+    -per impostare se ricevere i file json con tutti i prodotti trovati usa /file seguito da si o no
+    -questo bot è stato fatto senza dare troppo peso a possibili errori dell'utente quindi si rompe facile, non sfidarlo`)
 });
 
 bot.onText(/\/start/, (msg, match) => {
     let chatID = msg.chat.id;
-    bot.sendMessage(chatID, `per creare un nuovo obserever usa /new e segui le istruzioni,\n
-                             per eliminare un observer usa /elimina seguito dal nome dell'observer,\n
-                             per vedere tutti i tuoi observer attivi usa /lista,\n
-                             per eseguire immediatamente un observer usa /esegui seguito dal nome dell'observer\n
-                             attenzione: 
-                                         -tutti i comandi per impostare un nuovo observer (a parte /fatto) hanno bisogno di un argomento successivo\n
-                                         -la tolleranza è il discostamento dal prezzo impostato (in %)\n
-                                         -il tempo è ogni quanto eseguire e notificare la ricerca (in minuti)\n
-                                         -questo bot è stato fatto senza dare troppo peso a possibili errori dell'utente quindi si rompe facile, non sfidarlo`)
+    bot.sendMessage(chatID, `per creare un nuovo obserever usa /new e segui le istruzioni,
+per eliminare un observer usa /elimina seguito dal nome dell'observer,
+per vedere tutti i tuoi observer attivi usa /lista,
+per eseguire immediatamente un observer usa /esegui seguito dal nome dell'observer
+attenzione: 
+    -tutti i comandi per impostare un nuovo observer (a parte /fatto) hanno bisogno di un argomento successivo
+    -la tolleranza è il discostamento dal prezzo impostato (in %)
+    -il tempo è ogni quanto eseguire e notificare la ricerca (in minuti)
+    -per impostare se ricevere i file json con tutti i prodotti trovati usa /file seguito da si o no
+    -questo bot è stato fatto senza dare troppo peso a possibili errori dell'utente quindi si rompe facile, non sfidarlo`)
 });
 
 function search(name, id){
@@ -205,9 +237,14 @@ function search(name, id){
             let min = minMax(res,'min')
             let max = minMax(res,'max')
             fs.writeFileSync("temp/" + name + "_" + id + ".json", JSON.stringify(res));
-            text = "il prodotto con il prezzo minore è:\n" + min['title'] + "\n " + min["sellingStatus"][0]["currentPrice"][0]["__value__"] + "\n " + min['viewItemURL'] + "\nil prodotto con il prezzo maggiore è:\n " + max['title'] + "\n " + max["sellingStatus"][0]["currentPrice"][0]["__value__"] + "\n " + max['viewItemURL'] + "\necco invece tutti i prodotti trovati:" 
-            bot.sendMessage(id,text)
-            bot.sendDocument(id,"temp/" + name + "_" + id + ".json")
+            text = "il prodotto con il prezzo minore è:\n" + min['title'] + "\n " + min["sellingStatus"][0]["currentPrice"][0]["__value__"] + "\n " + min['viewItemURL'] + "\nil prodotto con il prezzo maggiore è:\n " + max['title'] + "\n " + max["sellingStatus"][0]["currentPrice"][0]["__value__"] + "\n " + max['viewItemURL'];
+            if(research['file']){
+                text += "\necco invece tutti i prodotti trovati:";
+                bot.sendMessage(id,text)
+                bot.sendDocument(id,"temp/" + name + "_" + id + ".json")
+            }else{
+                bot.sendMessage(id,text);
+            }
             fs.unlink("./temp/" + name + "_" + id + ".json",()=>{})
         },
         error => {
