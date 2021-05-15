@@ -159,14 +159,14 @@ bot.onText(/\/esegui (.+)/, (msg, match) => {
 
 bot.onText(/\/help/, (msg, match) => {
     let chatID = msg.chat.id;
-    bot.sendMessage(chatID, `per creare un nuovo obserever usa /new e segui le istruzioni,\n
-                             per eliminare un observer usa /elimina seguito dal nome dell'observer,\n
-                             per vedere tutti i tuoi observer attivi usa /lista,\n
-                             per eseguire immediatamente un observer usa /esegui seguito dal nome dell'observer\n
+    bot.sendMessage(chatID, `per creare un nuovo obserever usa /new e segui le istruzioni,
+                             per eliminare un observer usa /elimina seguito dal nome dell'observer,
+                             per vedere tutti i tuoi observer attivi usa /lista,
+                             per eseguire immediatamente un observer usa /esegui seguito dal nome dell'observer
                              attenzione: 
-                                         -tutti i comandi per impostare un nuovo observer (a parte /fatto) hanno bisogno di un argomento successivo\n
-                                         -la tolleranza è il discostamento dal prezzo impostato (in %)\n
-                                         -il tempo è ogni quanto eseguire e notificare la ricerca (in minuti)\n
+                                         -tutti i comandi per impostare un nuovo observer (a parte /fatto) hanno bisogno di un argomento successivo
+                                         -la tolleranza è il discostamento dal prezzo impostato (in %)
+                                         -il tempo è ogni quanto eseguire e notificare la ricerca (in minuti)
                                          -questo bot è stato fatto senza dare troppo peso a possibili errori dell'utente quindi si rompe facile, non sfidarlo`)
 });
 
