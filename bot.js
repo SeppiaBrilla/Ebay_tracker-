@@ -149,7 +149,7 @@ bot.onText(/\/elimina (.+)/, (msg, match) => {
     try{
         let name = match[1] ? match[1] : ""
         if(name != ""){
-            fs.unlink("./saved_researches/"+ name +"_" + chatID + ".json")
+            fs.unlink("./saved_researches/"+ name +"_" + chatID + ".json",()=>{})
             bot.sendMessage(chatID, "observer rimosso con successo")
         }
     }catch{
@@ -182,7 +182,8 @@ bot.onText(/\/esegui (.+)/, (msg, match) => {
     let chatID = msg.chat.id;
     try{
         search(match[1], chatID)
-    }catch{
+    }catch(e){
+        console.log(e)
         bot.sendMessage(chatID, "errore nella lettura del messaggio, prova ad usare /help per avere istruzioni su come usarmi")
     }
 });
