@@ -3,6 +3,9 @@ const fs = require('fs');
 let eBay = require("ebay-node-api");
 require('dotenv').config()
 
+if(!process.env.EbayAppID)
+    throw(".env file missing")
+
 let ebay = new eBay({
   clientID: process.env.EbayAppID,
   clientSecret: process.env.EbayCertID,
@@ -78,7 +81,7 @@ bot.onText(/\/tolleranza (.+)/, (msg, match) => {
             return;
         }
         new_observers[chatID]['tollerance'] = tollerance;
-        bot.sendMessage(chatID, "tolleranza impostata a: '" + tollerance + "', se vuoi cambiarla usa /tolleranza");
+        bot.sendMessage(chatID, "tolleranza impostata a: '" + tollerance + "'%, se vuoi cambiarla usa /tolleranza");
     }catch{
         bot.sendMessage(chatID, "errore nella lettura del messaggio, prova ad usare /help per avere istruzioni su come usarmi");
     }
@@ -92,7 +95,7 @@ bot.onText(/\/tempo (.+)/, (msg, match) => {
             return
         }
         new_observers[chatID]['time'] = time
-        bot.sendMessage(chatID, "tempo impostato a: '" +  time + "', se vuoi cambiarlo usa /tempo")
+        bot.sendMessage(chatID, "tempo impostato a: '" +  time + "' minuti, se vuoi cambiarlo usa /tempo")
     }catch{
         bot.sendMessage(chatID, "errore nella lettura del messaggio, prova ad usare /help per avere istruzioni su come usarmi");
     }
@@ -137,14 +140,7 @@ bot.onText(/\/cancella/, (msg, match) => {
 bot.onText(/\/lista/, (msg, match) => {
     let chatID = msg.chat.id;
     let text = "i tuoi observer attvi sono:"
-    let files = ""
-    fs.readdir('./saved_researches', function(err, filenames) {
-        if (err) {
-          onError(err);
-          return;
-        };
-        files = filenames
-    });
+    let files = fs.readdirSync('./saved_researches/');
     for(let i = 0; i < files.length; i++){
         if(files[i].includes(chatID))
             text += "\n" +files[i].split('_')[0]
@@ -159,6 +155,30 @@ bot.onText(/\/esegui (.+)/, (msg, match) => {
     }catch{
         bot.sendMessage(chatID, "errore nella lettura del messaggio, prova ad usare /help per avere istruzioni su come usarmi")
     }
+});
+
+bot.onText(/\/help/, (msg, match) => {
+    bot.sendMessage(chatID, `per creare un nuovo obserever usa /new e segui le istruzioni,\n
+                             per eliminare un observer usa /elimina seguito dal nome dell'observer,\n
+                             per vedere tutti i tuoi observer attivi usa /lista,\n
+                             per eseguire immediatamente un observer usa /esegui seguito dal nome dell'observer\n
+                             attenzione: 
+                                         -tutti i comandi per impostare un nuovo observer (a parte /fatto) hanno bisogno di un argomento successivo\n
+                                         -la tolleranza è il discostamento dal prezzo impostato (in %)\n
+                                         -il tempo è ogni quanto eseguire e notificare la ricerca (in minuti)\n
+                                         -questo bot è stato fatto senza dare troppo peso a possibili errori dell'utente quindi si rompe facile, non sfidarlo`)
+});
+
+bot.onText(/\/start/, (msg, match) => {
+    bot.sendMessage(chatID, `per creare un nuovo obserever usa /new e segui le istruzioni,\n
+                             per eliminare un observer usa /elimina seguito dal nome dell'observer,\n
+                             per vedere tutti i tuoi observer attivi usa /lista,\n
+                             per eseguire immediatamente un observer usa /esegui seguito dal nome dell'observer\n
+                             attenzione: 
+                                         -tutti i comandi per impostare un nuovo observer (a parte /fatto) hanno bisogno di un argomento successivo\n
+                                         -la tolleranza è il discostamento dal prezzo impostato (in %)\n
+                                         -il tempo è ogni quanto eseguire e notificare la ricerca (in minuti)\n
+                                         -questo bot è stato fatto senza dare troppo peso a possibili errori dell'utente quindi si rompe facile, non sfidarlo`)
 });
 
 function search(name, id){
