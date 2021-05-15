@@ -35,7 +35,7 @@ function sleep(ms) {
 
 bot.onText(/\/nuovo/, (msg, match) => {
     let chatID = msg.chat.id;
-    bot.sendMessage(chatID, "Ciao, stai creando un nuovo observer di prezzo. Ora usa i comando:\n /nome per impostare cosa cercare, \n /prezzo per impostare il prezzo ideale, \n /tolleranza per impsotare una tolleranza di prezzo, \n /tempo per impostare ogni quanto controllare, \n e /fatto per completare la configurazione");
+    bot.sendMessage(chatID, "Ciao, stai creando un nuovo observer di prezzo. Ora usa i comando:\n /nome per impostare cosa cercare, \n /prezzo per impostare il prezzo ideale, \n /tolleranza per impsotare una tolleranza di prezzo, \n /tempo per impostare ogni quanto controllare, /file per impostare se vuoi o meno ricevere il file con tutte le ricerche\n e /fatto per completare la configurazione");
     bot.sendMessage(chatID, "se invece vuoi cancellare l'operazione usa /cancella");
     new_observers[chatID] = {};
     new_observers[chatID]['id'] = chatID; 
@@ -107,7 +107,6 @@ bot.onText(/\/tempo (.+)/, (msg, match) => {
 bot.onText(/\/file (.+)/, (msg, match) => {
     let chatID = msg.chat.id;
     try{
-        time = match[1];
         if(! chatID in new_observers){
             bot.sendMessage(chatID, "prima di poter impostare un tempo di un observer devi crearlo, usa /nuovo per poterlo fare")
             return
