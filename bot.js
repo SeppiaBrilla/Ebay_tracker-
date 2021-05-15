@@ -233,7 +233,7 @@ function search(name, id){
                     res.push(response[i])
             }
             if(res.length < 1){
-                bot.sendMessage(id,"nessun prodotto relativo alla ricerca " + nome + " trovato!")
+                bot.sendMessage(id,"nessun prodotto relativo alla ricerca " + name + " trovato!")
                 return;
             }
             let keys = Object.keys(res);
