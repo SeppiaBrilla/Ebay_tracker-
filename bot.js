@@ -35,7 +35,7 @@ function sleep(ms) {
 
 bot.onText(/\/nuovo/, (msg, match) => {
     let chatID = msg.chat.id;
-    bot.sendMessage(chatID, "Ciao, stai creando un nuovo observer di prezzo. Ora usa i comando:\n /nome per impostare cosa cercare, \n /prezzo per impostare il prezzo ideale, \n /tolleranza per impsotare una tolleranza di prezzo, \n /tempo per impostare ogni quanto controllare, /file per impostare se vuoi o meno ricevere il file con tutte le ricerche\n e /fatto per completare la configurazione");
+    bot.sendMessage(chatID, "Ciao, stai creando un nuovo observer di prezzo. Ora usa i comando:\n /nome per impostare cosa cercare, \n /prezzo per impostare il prezzo ideale, \n /tolleranza per impsotare una tolleranza di prezzo, \n /tempo per impostare ogni quanto controllare,\n /file per impostare se vuoi o meno ricevere il file con tutte le ricerche\n e /fatto per completare la configurazione");
     bot.sendMessage(chatID, "se invece vuoi cancellare l'operazione usa /cancella");
     new_observers[chatID] = {};
     new_observers[chatID]['id'] = chatID; 
@@ -107,7 +107,7 @@ bot.onText(/\/tempo (.+)/, (msg, match) => {
 bot.onText(/\/file (.+)/, (msg, match) => {
     let chatID = msg.chat.id;
     try{
-        if(! chatID in new_observers){
+        if(!chatID in new_observers){
             bot.sendMessage(chatID, "prima di poter impostare un tempo di un observer devi crearlo, usa /nuovo per poterlo fare")
             return
         }
@@ -115,14 +115,15 @@ bot.onText(/\/file (.+)/, (msg, match) => {
             new_observers[chatID]['file'] = true;
             bot.sendMessage(chatID, "perfetto, riceverai il file json con tutti i risultati trovati, usa '/file no' per cambiare questa impostazione");
         }
-        else if(matc[1] == 'no'){
+        else if(match[1] == 'no'){
             new_observers[chatID]['file'] = false;
             bot.sendMessage(chatID, "perfetto, non riceverai il file json con tutti i risultati trovati, usa '/file si' per cambiare questa impostazione");
         }
         else{
             bot.sendMessage(chatID,'non hai scelto nè si nè no, per favore usa il comando correttamente');
         }
-    }catch{
+    }catch(e){
+        console.log(e)
         bot.sendMessage(chatID, "errore nella lettura del messaggio, prova ad usare /help per avere istruzioni su come usarmi");
     }
 });
