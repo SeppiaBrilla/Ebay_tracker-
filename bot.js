@@ -158,6 +158,7 @@ bot.onText(/\/esegui (.+)/, (msg, match) => {
 });
 
 bot.onText(/\/help/, (msg, match) => {
+    let chatID = msg.chat.id;
     bot.sendMessage(chatID, `per creare un nuovo obserever usa /new e segui le istruzioni,\n
                              per eliminare un observer usa /elimina seguito dal nome dell'observer,\n
                              per vedere tutti i tuoi observer attivi usa /lista,\n
@@ -170,6 +171,7 @@ bot.onText(/\/help/, (msg, match) => {
 });
 
 bot.onText(/\/start/, (msg, match) => {
+    let chatID = msg.chat.id;
     bot.sendMessage(chatID, `per creare un nuovo obserever usa /new e segui le istruzioni,\n
                              per eliminare un observer usa /elimina seguito dal nome dell'observer,\n
                              per vedere tutti i tuoi observer attivi usa /lista,\n
